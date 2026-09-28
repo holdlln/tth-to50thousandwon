@@ -109,6 +109,14 @@ class CoreTests(unittest.TestCase):
         cmd=planner.command(Pose(0,0,0),[2,0],np.array([[.24,0]]),[],.128)
         self.assertEqual(cmd,(0,0))
 
+    def test_static_side_obstacle_triggers_escape_reverse(self):
+        planner=LocalPlanner(self.cfg)
+        # This is the geometry that previously deadlocked beside zigzag debris:
+        # the path points ahead, but the forward rollout clips a nearby corner.
+        v,_=planner.command(Pose(0,0,0),[2,0],np.array([[.318,.347]]),[],.128)
+        self.assertLess(v,0)
+        self.assertEqual(planner.reason,'escape_reverse')
+
     def test_rotation_only_does_not_keep_previous_forward_velocity(self):
         planner=LocalPlanner(self.cfg); planner.velocity=(.4,0)
         v,_=planner.command(Pose(0,0,0),[0,1],np.empty((0,2)),[],.128,speed_scale=0)

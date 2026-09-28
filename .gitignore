@@ -3,4 +3,4 @@ __pycache__/
 tmp/
 output/runs/
 .venv/
-worlds/.rescue_medium.wbproj
+worlds/.*.wbproj

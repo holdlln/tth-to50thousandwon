@@ -30,6 +30,7 @@ class LocalPlanner:
                                           min(cfg['max_angular_speed'],w0+dw),9)])
         bearing = wrap(atan2(goal[1]-pose.y,goal[0]-pose.x)-pose.yaw)
         best = None
+        safe_candidates = []
         for v in vs:
             if abs(bearing)>1.0 and v>.01:
                 continue
@@ -57,10 +58,22 @@ class LocalPlanner:
                 end_distance = np.hypot(goal[0]-x,goal[1]-y)
                 heading = abs(wrap(atan2(goal[1]-y,goal[0]-x)-yaw))
                 score = -2.4*end_distance-.7*heading+.7*v+.12*min(min_clearance,1.2)-.04*abs(w-w0)
+                safe_candidates.append((score,float(v),float(w)))
                 if best is None or score>best[0]:
                     best = (score,float(v),float(w))
         if best is None:
             return self.stop('no_safe_velocity')
+        # If the route is straight ahead but every forward rollout is blocked,
+        # standing still cannot improve the situation.  Select a rollout-safe
+        # reverse trajectory so the next global replan starts with clearance.
+        goal_distance = np.hypot(goal[0]-pose.x,goal[1]-pose.y)
+        if abs(best[1])<=.01 and abs(bearing)<.35 and goal_distance>.3:
+            reverse = [candidate for candidate in safe_candidates if candidate[1]<-.01]
+            if reverse:
+                best=max(reverse,key=lambda candidate:candidate[0])
+                self.velocity=best[1:]
+                self.reason='escape_reverse'
+                return self.velocity
         self.velocity = best[1:]
         self.reason = 'tracking' if best[1]>.01 else 'turn_or_wait'
         return self.velocity
