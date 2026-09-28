@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+tmp/
+output/runs/
+.venv/
+worlds/.rescue_medium.wbproj

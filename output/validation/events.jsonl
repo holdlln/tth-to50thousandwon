@@ -1,0 +1,13 @@
+{"time": 1.92, "kind": "target_confirmed", "targets": [{"label": "red", "position": [-4.700770498412978, -0.9756307056460763]}]}
+{"time": 17.792, "kind": "target_visited", "label": "red", "position": [-4.730941261801416, -0.9979698758738608], "robot_pose": [-4.4175660550768745, -1.7822256700532566, 1.768048405190577]}
+{"time": 27.648, "kind": "replan_after_wait", "state": "EXPLORE"}
+{"time": 56.96, "kind": "replan_after_wait", "state": "EXPLORE"}
+{"time": 59.008, "kind": "target_confirmed", "targets": [{"label": "red", "position": [-4.72960420257371, -0.9975220764012047]}, {"label": "green", "position": [-4.627586369335582, 3.742461400550754]}]}
+{"time": 66.048, "kind": "target_visited", "label": "green", "position": [-4.622000390840836, 3.759875059195417], "robot_pose": [-3.79950119003283, 3.5719838518821434, 3.113401871071023]}
+{"time": 131.072, "kind": "replan_after_wait", "state": "EXPLORE"}
+{"time": 132.992, "kind": "target_confirmed", "targets": [{"label": "red", "position": [-4.72960420257371, -0.9975220764012047]}, {"label": "green", "position": [-4.6300493705169625, 3.740238948327544]}, {"label": "blue", "position": [4.856088817913474, -3.64745495306589]}]}
+{"time": 140.032, "kind": "target_visited", "label": "blue", "position": [4.8468922338593465, -3.647940637417388], "robot_pose": [4.017110200287744, -3.5174249442455507, -0.20354026761203417]}
+{"time": 149.76, "kind": "replan_after_wait", "state": "EXPLORE"}
+{"time": 184.96, "kind": "target_confirmed", "targets": [{"label": "red", "position": [-4.72960420257371, -0.9975220764012047]}, {"label": "green", "position": [-4.6300493705169625, 3.740238948327544]}, {"label": "blue", "position": [4.842492869120649, -3.6681862557267553]}, {"label": "yellow", "position": [4.653327106246839, 4.056913659597175]}]}
+{"time": 194.048, "kind": "target_visited", "label": "yellow", "position": [4.648840935271798, 4.063724227452762], "robot_pose": [3.801327379693105, 4.056050464400724, 0.0092159970073065]}
+{"time": 243.45600000000002, "kind": "mission_finished", "status": "complete", "visited": 4}

@@ -1,0 +1,71 @@
+{
+  "initial_pose": [
+    -4.6,
+    -3.6,
+    0.0
+  ],
+  "wheel_radius": 0.075,
+  "axle_length": 0.32,
+  "robot_radius": 0.23,
+  "safety_margin": 0.12,
+  "max_speed": 0.45,
+  "max_angular_speed": 1.6,
+  "acceleration": 0.8,
+  "angular_acceleration": 3.0,
+  "lidar_max_range": 5.0,
+  "lidar_min_range": 0.06,
+  "camera_offset": 0.14,
+  "map_resolution": 0.1,
+  "map_extent": 24.0,
+  "scan_matching": true,
+  "planning_period": 1.0,
+  "mission_limit_seconds": 600,
+  "return_reserve_seconds": 45,
+  "visit_distance": 0.85,
+  "approach_distance": 0.72,
+  "visit_hold_seconds": 0.8,
+  "home_tolerance": 0.05,
+  "home_angle_tolerance": 0.2,
+  "expected_targets": 4,
+  "target_features": [
+    {
+      "label": "red",
+      "rgb": [
+        230,
+        35,
+        40
+      ],
+      "hue_tolerance": 0.055
+    },
+    {
+      "label": "green",
+      "rgb": [
+        35,
+        220,
+        65
+      ],
+      "hue_tolerance": 0.055
+    },
+    {
+      "label": "blue",
+      "rgb": [
+        35,
+        65,
+        230
+      ],
+      "hue_tolerance": 0.055
+    },
+    {
+      "label": "yellow",
+      "rgb": [
+        235,
+        215,
+        30
+      ],
+      "hue_tolerance": 0.055
+    }
+  ],
+  "target_width": 0.36,
+  "scan_translation_gain": 0.2,
+  "scan_heading_gain": 0.12
+}
