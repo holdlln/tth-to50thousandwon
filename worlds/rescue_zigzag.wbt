@@ -69,58 +69,38 @@ DEF WALL_3 Solid {
 }
 
 DEF WALL_4 Solid {
-  translation 0 -3.1 0.45
+  translation -3.0 -1.75 0.45
   name "WALL_4"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.56 0.58 0.6 roughness 1 metalness 0 }
-    geometry Box { size 0.18 3.8 0.9 }
+    geometry Box { size 0.18 5.5 0.9 }
   } ]
-  boundingObject Box { size 0.18 3.8 0.9 }
+  boundingObject Box { size 0.18 5.5 0.9 }
 }
 
 DEF WALL_5 Solid {
-  translation 0 3.1 0.45
+  translation 0.0 1.5 0.45
   name "WALL_5"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.56 0.58 0.6 roughness 1 metalness 0 }
-    geometry Box { size 0.18 3.8 0.9 }
+    geometry Box { size 0.18 6.0 0.9 }
   } ]
-  boundingObject Box { size 0.18 3.8 0.9 }
+  boundingObject Box { size 0.18 6.0 0.9 }
 }
 
 DEF WALL_6 Solid {
-  translation -4.15 0 0.45
+  translation 3.0 -1.5 0.45
   name "WALL_6"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.56 0.58 0.6 roughness 1 metalness 0 }
-    geometry Box { size 3.7 0.18 0.9 }
+    geometry Box { size 0.18 6.0 0.9 }
   } ]
-  boundingObject Box { size 3.7 0.18 0.9 }
-}
-
-DEF WALL_7 Solid {
-  translation 4.1 0 0.45
-  name "WALL_7"
-  children [ Shape {
-    appearance PBRAppearance { baseColor 0.56 0.58 0.6 roughness 1 metalness 0 }
-    geometry Box { size 3.8 0.18 0.9 }
-  } ]
-  boundingObject Box { size 3.8 0.18 0.9 }
+  boundingObject Box { size 0.18 6.0 0.9 }
 }
 
 DEF DEBRIS_0 Solid {
-  translation -3.0 -2.2 0.325
+  translation -4.5 1.8 0.325
   name "DEBRIS_0"
-  children [ Shape {
-    appearance PBRAppearance { baseColor 0.32 0.30 0.28 roughness 1 metalness 0 }
-    geometry Box { size 1.0 0.8 0.65 }
-  } ]
-  boundingObject Box { size 1.0 0.8 0.65 }
-}
-
-DEF DEBRIS_1 Solid {
-  translation -2.9 2.3 0.325
-  name "DEBRIS_1"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.32 0.30 0.28 roughness 1 metalness 0 }
     geometry Box { size 0.8 1.0 0.65 }
@@ -128,9 +108,9 @@ DEF DEBRIS_1 Solid {
   boundingObject Box { size 0.8 1.0 0.65 }
 }
 
-DEF DEBRIS_2 Solid {
-  translation 3.0 -2.3 0.325
-  name "DEBRIS_2"
+DEF DEBRIS_1 Solid {
+  translation -1.5 -3.0 0.325
+  name "DEBRIS_1"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.32 0.30 0.28 roughness 1 metalness 0 }
     geometry Box { size 0.9 0.8 0.65 }
@@ -138,9 +118,9 @@ DEF DEBRIS_2 Solid {
   boundingObject Box { size 0.9 0.8 0.65 }
 }
 
-DEF DEBRIS_3 Solid {
-  translation 3.5 3.0 0.325
-  name "DEBRIS_3"
+DEF DEBRIS_2 Solid {
+  translation 1.4 3.2 0.325
+  name "DEBRIS_2"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.32 0.30 0.28 roughness 1 metalness 0 }
     geometry Box { size 1.0 0.7 0.65 }
@@ -148,8 +128,18 @@ DEF DEBRIS_3 Solid {
   boundingObject Box { size 1.0 0.7 0.65 }
 }
 
+DEF DEBRIS_3 Solid {
+  translation 4.4 2.7 0.325
+  name "DEBRIS_3"
+  children [ Shape {
+    appearance PBRAppearance { baseColor 0.32 0.30 0.28 roughness 1 metalness 0 }
+    geometry Box { size 0.8 1.0 0.65 }
+  } ]
+  boundingObject Box { size 0.8 1.0 0.65 }
+}
+
 DEF T1 Solid {
-  translation -4.7 -1.0 0.275
+  translation -4.7 -0.2 0.275
   name "rescue target T1"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.9019607843137255 0.13725490196078433 0.1568627450980392 roughness 1 metalness 0 }
@@ -159,7 +149,7 @@ DEF T1 Solid {
 }
 
 DEF T2 Solid {
-  translation -4.6 3.8 0.275
+  translation -1.4 4.0 0.275
   name "rescue target T2"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.13725490196078433 0.8627450980392157 0.2549019607843137 roughness 1 metalness 0 }
@@ -169,7 +159,7 @@ DEF T2 Solid {
 }
 
 DEF T3 Solid {
-  translation 4.7 -3.8 0.275
+  translation 1.5 -3.8 0.275
   name "rescue target T3"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.13725490196078433 0.2549019607843137 0.9019607843137255 roughness 1 metalness 0 }
@@ -179,7 +169,7 @@ DEF T3 Solid {
 }
 
 DEF T4 Solid {
-  translation 4.7 3.9 0.275
+  translation 4.8 3.9 0.275
   name "rescue target T4"
   children [ Shape {
     appearance PBRAppearance { baseColor 0.9215686274509803 0.8431372549019608 0.11764705882352941 roughness 1 metalness 0 }
@@ -189,7 +179,7 @@ DEF T4 Solid {
 }
 
 DEF P1 Solid {
-  translation -1.1 -0.65 0
+  translation -2.3 2.4 0
   name "moving obstacle P1"
   children [
     Pose { translation 0 0 0.4 children [ Shape {
@@ -205,7 +195,7 @@ DEF P1 Solid {
 }
 
 DEF P2 Solid {
-  translation 2.2 1.4 0
+  translation 0.8 -2.2 0
   name "moving obstacle P2"
   children [
     Pose { translation 0 0 0.4 children [ Shape {
@@ -225,7 +215,7 @@ DEF RESCUE_ROBOT RescueBot { translation -4.6 -3.6 0 rotation 0 0 1 0.0 }
 DEF EVALUATOR Robot {
   name "Scenario evaluator"
   supervisor TRUE
-  customData "config/scenario.json"
+  customData "config/scenario_zigzag.json"
   controller "scenario_supervisor"
   children [ Receiver { name "mission events" channel 17 } ]
 }

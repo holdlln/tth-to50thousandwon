@@ -20,7 +20,12 @@ def box(name, data, height, color):
 
 
 def build(scenario_path=None, output=None):
-    scenario=json.loads(Path(scenario_path or ROOT/'config/scenario.json').read_text(encoding='utf-8'))
+    scenario_file=Path(scenario_path or ROOT/'config/scenario.json').resolve()
+    scenario=json.loads(scenario_file.read_text(encoding='utf-8'))
+    try:
+        scenario_reference=scenario_file.relative_to(ROOT).as_posix()
+    except ValueError as error:
+        raise ValueError('scenario must be inside the project directory') from error
     config=json.loads((ROOT/'config/robot.json').read_text(encoding='utf-8'))
     sx,sy=scenario['size']
     parts=['''#VRML_SIM R2025a utf8
@@ -85,12 +90,13 @@ DirectionalLight { direction -0.2 -0.3 -1 intensity 2 ambientIntensity 0.5 }
 }}''')
     x,y,yaw=config['initial_pose']
     parts.append(f'DEF RESCUE_ROBOT RescueBot {{ translation {x} {y} 0 rotation 0 0 1 {yaw} }}')
-    parts.append('''DEF EVALUATOR Robot {
+    parts.append(f'''DEF EVALUATOR Robot {{
   name "Scenario evaluator"
   supervisor TRUE
+  customData "{scenario_reference}"
   controller "scenario_supervisor"
-  children [ Receiver { name "mission events" channel 17 } ]
-}''')
+  children [ Receiver {{ name "mission events" channel 17 }} ]
+}}''')
     out=Path(output or ROOT/'worlds/rescue_medium.wbt')
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text('\n\n'.join(parts)+'\n',encoding='utf-8')

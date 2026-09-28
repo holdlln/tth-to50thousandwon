@@ -200,23 +200,25 @@ class CoreTests(unittest.TestCase):
             invalid=arguments.copy(); invalid[index]=value
             self.assertFalse(mission_success(event,*invalid))
 
-    def test_medium_world_static_geometry_has_routes_to_every_target(self):
-        scenario=json.loads((ROOT/'config/scenario.json').read_text())
-        grid=OccupancyGrid(self.cfg)
-        yy,xx=np.indices(grid.seen.shape)
-        xy=grid.world(np.stack((xx,yy),axis=-1))
-        grid.seen[:]=True; grid.log_odds[:]=-3
-        for x,y,sx,sy in scenario['walls']+scenario['debris']:
-            inside=(abs(xy[:,:,0]-x)<=sx/2+.05)&(abs(xy[:,:,1]-y)<=sy/2+.05)
-            grid.log_odds[inside]=3
-        for target in scenario['targets']:
-            grid.log_odds[np.linalg.norm(xy-target['position'],axis=-1)<=scenario['target_radius']+.05]=3
-        free=grid.traversable(.38)
-        distances,_=shortest_paths(free,grid.cell(self.cfg['initial_pose'][:2]))
-        for target in scenario['targets']:
-            goal=approach_goal(grid,np.array(target['position']),distances)
-            self.assertIsNotNone(goal,msg=target['id'])
-            self.assertLess(np.linalg.norm(grid.world(goal)-target['position']),.85)
+    def test_world_static_geometry_has_routes_to_every_target(self):
+        for scenario_path in sorted((ROOT/'config').glob('scenario*.json')):
+            with self.subTest(scenario=scenario_path.name):
+                scenario=json.loads(scenario_path.read_text())
+                grid=OccupancyGrid(self.cfg)
+                yy,xx=np.indices(grid.seen.shape)
+                xy=grid.world(np.stack((xx,yy),axis=-1))
+                grid.seen[:]=True; grid.log_odds[:]=-3
+                for x,y,sx,sy in scenario['walls']+scenario['debris']:
+                    inside=(abs(xy[:,:,0]-x)<=sx/2+.05)&(abs(xy[:,:,1]-y)<=sy/2+.05)
+                    grid.log_odds[inside]=3
+                for target in scenario['targets']:
+                    grid.log_odds[np.linalg.norm(xy-target['position'],axis=-1)<=scenario['target_radius']+.05]=3
+                free=grid.traversable(.38)
+                distances,_=shortest_paths(free,grid.cell(self.cfg['initial_pose'][:2]))
+                for target in scenario['targets']:
+                    goal=approach_goal(grid,np.array(target['position']),distances)
+                    self.assertIsNotNone(goal,msg=target['id'])
+                    self.assertLess(np.linalg.norm(grid.world(goal)-target['position']),.85)
 
 
 if __name__=='__main__': unittest.main()

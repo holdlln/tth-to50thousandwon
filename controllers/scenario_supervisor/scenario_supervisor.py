@@ -16,7 +16,13 @@ from sar.evaluation import pedestrian_position,scene_clearance,mission_success
 def main():
     supervisor=Supervisor(); step=int(supervisor.getBasicTimeStep())
     config=load_config()
-    scenario=json.loads((ROOT/'config/scenario.json').read_text(encoding='utf-8'))
+    scenario_reference=supervisor.getCustomData().strip() or 'config/scenario.json'
+    scenario_path=(ROOT/scenario_reference).resolve()
+    try:
+        scenario_path.relative_to(ROOT.resolve())
+    except ValueError as error:
+        raise ValueError('scenario path must stay inside the project directory') from error
+    scenario=json.loads(scenario_path.read_text(encoding='utf-8'))
     robot=supervisor.getFromDef('RESCUE_ROBOT')
     receiver=supervisor.getDevice('mission events'); receiver.enable(step)
     pedestrians=[(p,supervisor.getFromDef(p['id']).getField('translation')) for p in scenario['pedestrians']]

@@ -4,7 +4,7 @@
 
 - 자세한 설계, 실제 구조 상황의 고려 사항, 창의적 요소: [설계와 대회 전략](docs/설계와_대회전략.md)
 - 실행 검증 및 알려진 한계: [검증 결과](docs/검증결과.md)
-- World: `worlds/rescue_medium.wbt`
+- Worlds: `worlds/rescue_medium.wbt`, `worlds/rescue_loop.wbt`, `worlds/rescue_zigzag.wbt`
 - Robot: `protos/RescueBot.proto`
 
 ## Windows에서 실행
@@ -37,6 +37,16 @@ export SAR_RUN_ID="linux_demo"
 python tools/build_world.py
 webots --mode=pause worlds/rescue_medium.wbt
 ```
+
+추가 맵은 다음처럼 실행합니다.
+
+```powershell
+webots --mode=pause worlds/rescue_loop.wbt
+webots --mode=pause worlds/rescue_zigzag.wbt
+```
+
+각 추가 맵의 원본 시나리오는 `config/scenario_loop.json`과
+`config/scenario_zigzag.json`이며, 평가기는 월드에 연결된 시나리오를 자동으로 사용합니다.
 
 Linux 실행 절차는 제공하지만 현재 PC에서 검증한 운영체제는 Windows입니다.
 
