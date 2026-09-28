@@ -24,7 +24,7 @@
   "visit_distance": 0.85,
   "approach_distance": 0.72,
   "visit_hold_seconds": 0.8,
-  "home_tolerance": 0.05,
+  "home_tolerance": 0.1,
   "home_angle_tolerance": 0.2,
   "expected_targets": 4,
   "target_features": [

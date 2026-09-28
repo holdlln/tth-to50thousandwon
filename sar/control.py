@@ -9,6 +9,7 @@ class LocalPlanner:
         self.config = config
         self.velocity = (0.0,0.0)
         self.reason = 'initial'
+        self.escape_active = False
 
     def stop(self, reason):
         self.velocity = (0.0,0.0); self.reason = reason
@@ -63,6 +64,35 @@ class LocalPlanner:
                     best = (score,float(v),float(w))
         if best is None:
             return self.stop('no_safe_velocity')
+        # Keep backing away after a corner-triggered escape.  Without this
+        # hysteresis, a few centimetres of reverse motion can make forward
+        # motion look safe for one cycle, sending the robot straight back to
+        # the same corner and producing a forward/reverse deadlock.
+        escape_release = clearance + .20
+        if self.escape_active and nearest >= escape_release:
+            self.escape_active = False
+        if self.escape_active and best[1]>.01 and len(relative):
+            nearest_vector = relative[int(np.argmin(np.linalg.norm(relative,axis=1)))]
+            forward_axis = np.array([cos(pose.yaw),sin(pose.yaw)])
+            # A safe forward rollout that increases distance from the nearest
+            # obstacle is itself a valid escape; do not force reverse merely
+            # because the obstacle is still within the hysteresis radius.
+            if nearest_vector @ forward_axis < 0:
+                self.escape_active = False
+        if self.escape_active:
+            reverse = [candidate for candidate in safe_candidates if candidate[1]<-.01]
+            if reverse:
+                best=max(reverse,key=lambda candidate:candidate[0])
+                self.velocity=best[1:]
+                self.reason='escape_reverse'
+                return self.velocity
+            non_forward = [candidate for candidate in safe_candidates if candidate[1]<=.01]
+            if non_forward:
+                turns = [candidate for candidate in non_forward if abs(candidate[2])>.01]
+                best=max(turns or non_forward,key=lambda candidate:candidate[0])
+                self.velocity=best[1:]
+                self.reason='escape_turn'
+                return self.velocity
         # If the route is straight ahead but every forward rollout is blocked,
         # standing still cannot improve the situation.  Select a rollout-safe
         # reverse trajectory so the next global replan starts with clearance.
@@ -71,6 +101,7 @@ class LocalPlanner:
             reverse = [candidate for candidate in safe_candidates if candidate[1]<-.01]
             if reverse:
                 best=max(reverse,key=lambda candidate:candidate[0])
+                self.escape_active=True
                 self.velocity=best[1:]
                 self.reason='escape_reverse'
                 return self.velocity

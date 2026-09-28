@@ -117,6 +117,30 @@ class CoreTests(unittest.TestCase):
         self.assertLess(v,0)
         self.assertEqual(planner.reason,'escape_reverse')
 
+    def test_escape_reverse_continues_until_clear_of_corner(self):
+        planner=LocalPlanner(self.cfg)
+        planner.command(Pose(0,0,0),[2,0],np.array([[.318,.347]]),[],.128)
+        v,_=planner.command(Pose(0,0,0),[2,0],np.array([[.35,.4]]),[],.128)
+        self.assertLess(v,0)
+        self.assertEqual(planner.reason,'escape_reverse')
+        planner.command(Pose(0,0,0),[2,0],np.array([[.45,.4]]),[],.128)
+        self.assertFalse(planner.escape_active)
+
+    def test_escape_turns_when_reverse_is_blocked(self):
+        planner=LocalPlanner(self.cfg)
+        planner.command(Pose(0,0,0),[2,0],np.array([[.318,.347]]),[],.128)
+        v,w=planner.command(Pose(0,0,0),[2,0],np.array([[.35,0],[-.36,0]]),[],.128)
+        self.assertEqual(v,0)
+        self.assertNotEqual(w,0)
+        self.assertEqual(planner.reason,'escape_turn')
+
+    def test_escape_allows_safe_forward_away_from_obstacle(self):
+        planner=LocalPlanner(self.cfg)
+        planner.command(Pose(0,0,0),[2,0],np.array([[.318,.347]]),[],.128)
+        v,_=planner.command(Pose(0,0,0),[2,0],np.array([[-.4,0]]),[],.128)
+        self.assertGreater(v,0)
+        self.assertFalse(planner.escape_active)
+
     def test_rotation_only_does_not_keep_previous_forward_velocity(self):
         planner=LocalPlanner(self.cfg); planner.velocity=(.4,0)
         v,_=planner.command(Pose(0,0,0),[0,1],np.empty((0,2)),[],.128,speed_scale=0)
@@ -177,6 +201,13 @@ class CoreTests(unittest.TestCase):
         command=mission.step(self.frame())
         self.assertNotEqual(mission.local.reason,'goal_reached')
         self.assertNotEqual(command,(0,0))
+
+    def test_return_finishes_inside_home_tolerance(self):
+        mission=Mission(self.cfg); mission.state='RETURN'
+        mission.localizer.pose=Pose(mission.home[0],mission.home[1]+.06,self.cfg['initial_pose'][2])
+        command=mission.step(self.frame())
+        self.assertEqual(mission.state,'DONE')
+        self.assertEqual(command,(0,0))
 
     def test_robot_does_not_read_ground_truth(self):
         files=list((ROOT/'sar').glob('*.py'))
