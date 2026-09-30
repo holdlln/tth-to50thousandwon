@@ -1,7 +1,0 @@
-{
-  "command": "python tools/run_tests.py",
-  "count": 24,
-  "result": "OK",
-  "failures": 0,
-  "errors": 0
-}
